@@ -53,7 +53,9 @@ public class CategoryService{
         Pageable pageable=  PageRequest.of(page,10);
         return categoryJPA.findAll(pageable);
     }
-
+ public  Iterable<Category> getAll(){
+        return categoryJPA.findAll();
+    }
 }
 
 

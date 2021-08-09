@@ -1,10 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:layout="http://https://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}"
+>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
 <body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div th:if="${failed!=null}" class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                <div th:text="${failed}"></div>
+            </div>
 
+            <div th:if="${success!=null}" class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                <div th:text="${success}"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Bordered Table</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Thumbnail</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Quantity</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="product:${listProductPage.iterator()}">
+                            <td th:text="${product.getId()}"></td>
+                            <th>
+                                <img height="100px" width="100px" th:src="'/uploads/'+@{${product.getPicture()}}"/>
+                            </th>
+                            <th th:text="${product.getName()}"></th>
+                            <th th:text="${product.getPrice()}"></th>
+                            <th th:text="${product.getCategory().getName()}"></th>
+                            <th>
+                                <div th:if="${product.getStatus==1}" class="badge badge-success">Active</div>
+                                <div th:if="${product.getStatus==0}" class="badge badge-danger">Inactive</div>
+                            </th>
+                            <th th:text="${product.getQuantity()}"></th>
+                            <td>
+                                <a class="btn btn-danger"
+                                   onclick="return confirm('Are you sure you want to delete it ?')"
+                                   th:href="@{/admin/product/delete(id=${product.getId()})}">Delete</a>
+                              <!--  <a class="btn btn-warning"
+                                   th:href="@{/admin/categories/edit(id=${item.getId()})}">Edit</a>-->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- /.card-body -->
+                <div th:if="${listProductPage.getTotalPages()>1}" class="card-footer clearfix">
+                    <ul class="pagination pagination-sm m-0 float-right">
+                        <li th:each="pageNumber:${#numbers.sequence(0, listProductPage.getTotalPages()-1)}"
+                            th:attr="class=${listProductPage.getActivePage()==pageNumber ? 'active page-item' : 'page-item'}">
+                            <a class="page-link" th:href="@{/admin/product(page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div layout:fragment="heading">
+    Categories
+</div>
+
+<div layout:fragment="breadcrumb">
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item active">Categories</li>
+    </ol>
+</div>
 </body>
 </html>

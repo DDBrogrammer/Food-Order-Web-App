@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -41,6 +42,11 @@ public class CategoryController implements ICRUD<Category>{
     }
 
     @Override
+    public String doAdd(Category obj, RedirectAttributes flashSession, MultipartFile multipartFile) {
+        return null;
+    }
+
+    @Override
     @GetMapping("/list")
     public String list(Model model,@RequestParam(name="page", defaultValue = "0") int page) {
         Page<Category> listCategoryPage = categoryService.getPageCategory(page);
@@ -54,7 +60,7 @@ public class CategoryController implements ICRUD<Category>{
 
     @Override
     @GetMapping("/delete")
-    public String delete(@RequestParam(name = "id") int id, RedirectAttributes flashSession){
+    public String delete(@RequestParam(name = "id") long id, RedirectAttributes flashSession){
         if (categoryService.delete(id)) {
             flashSession.addFlashAttribute("success", "Đã xóa người dùng ");
         } else {
@@ -80,5 +86,10 @@ public class CategoryController implements ICRUD<Category>{
             flashSession.addFlashAttribute("failed", "Xóa người dùng thất bại");
         }
         return "redirect:/admin/category/list";
+    }
+
+    @Override
+    public String doEdit(Category obj, RedirectAttributes flashSession, MultipartFile multipartFile) {
+        return null;
     }
 }

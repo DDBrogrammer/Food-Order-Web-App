@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -39,6 +40,7 @@ public class UserController implements ICRUD<User> {
         return "redirect:/admin/user/add";
     }
 
+
     @Override
     @GetMapping("/list")
     public String list(Model model,@RequestParam(name="page", defaultValue = "0") int page) {
@@ -52,7 +54,7 @@ public class UserController implements ICRUD<User> {
     }
     @Override
     @GetMapping("/delete")
-    public String delete(@RequestParam(name = "id") int id, RedirectAttributes flashSession){
+    public String delete(@RequestParam(name = "id") long id, RedirectAttributes flashSession){
         if (userService.delete(id)) {
             flashSession.addFlashAttribute("success", "Đã xóa người dùng ");
         } else {
@@ -80,5 +82,13 @@ public class UserController implements ICRUD<User> {
         return "redirect:/admin/user/list";
     }
 
+    @Override
+    public String doEdit(User obj, RedirectAttributes flashSession, MultipartFile multipartFile) {
+        return null;
+    }
 
+    @Override
+    public String doAdd(User obj, RedirectAttributes flashSession, MultipartFile multipartFile) {
+        return null;
+    }
 }
