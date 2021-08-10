@@ -46,9 +46,9 @@
                         <tr th:each="category:${listCategoryPage.iterator()}">
                             <td th:text="${category.getId()}"></td>
                             <td th:text="${category.getName()}"></td>
-                            <td ><!--th:text="${category.getEmail}"-->
-                                 <!--<div th:if="${user.getStatus==1}" class="badge badge-success">Active</div>
-                                 <div th:if="${user.getStatus==0}" class="badge badge-danger">Inactive</div>-->
+                            <td >
+                                 <div th:if="${category.getStatus==1}" class="badge badge-success">Active</div>
+                                 <div th:if="${category.getStatus==0}" class="badge badge-danger">Inactive</div>
                             </td>
                             <td>
 

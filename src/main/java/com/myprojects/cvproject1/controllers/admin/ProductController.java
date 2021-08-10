@@ -47,8 +47,7 @@ public class ProductController implements ICRUD<Product> {
     @Override
     @PostMapping("/do-add")
     public String doAdd(Product product, RedirectAttributes flashSession, @RequestParam(name="img")MultipartFile multipartFile) {
-        Product product1 = (Product) product;
-        if (productService.save(product1, multipartFile)) {
+        if (productService.save(product, multipartFile)) {
             flashSession.addFlashAttribute("success", "Add successfully");
         } else {
             flashSession.addFlashAttribute("failed", "Add failed");
@@ -78,18 +77,28 @@ public class ProductController implements ICRUD<Product> {
     }
 
     @Override
+    @GetMapping("/edit")
     public String edit(Model model, long id) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product",product);
+        model.addAttribute("categories",categoryService.getAll());
+        return "admin/product/edit";
+    }
+
+    @Override
+    public String doEdit(Product product, RedirectAttributes flashSession) {
         return null;
     }
 
     @Override
-    public String doEdit(Product user, RedirectAttributes flashSession) {
-        return null;
-    }
-
-    @Override
-    public String doEdit(Product obj, RedirectAttributes flashSession, MultipartFile multipartFile) {
-        return null;
+    @PostMapping("/do-edit")
+    public String doEdit(Product product, RedirectAttributes flashSession,@RequestParam(name="img") MultipartFile multipartFile) {
+         if(productService.save(product,multipartFile)){
+             flashSession.addFlashAttribute("success", "Add successfully");
+         } else {
+             flashSession.addFlashAttribute("failed", "Add failed");
+         }
+        return "redirect:/admin/product/list";
     }
 }
 

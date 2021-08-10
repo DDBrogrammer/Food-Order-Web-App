@@ -30,7 +30,7 @@
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form method="POST" enctype="multipart/form-data" th:action="@{/admin/product/do-add}" th:object="${product}">
+        <form method="POST"  th:action="@{/admin/product/do-add}" th:object="${product}"><!-- enctype="multipart/form-data"-->
             <div class="card-body">
                 <div class="form-group">
                     <label>Name</label>
